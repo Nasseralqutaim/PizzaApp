@@ -1,0 +1,11 @@
+Show a Topping
+
+<h1>Topping</h1>
+
+<p>
+  <strong>Name:</strong>
+  <%= @topping.name %>
+</p>
+
+<%= link_to 'Edit', edit_topping_path(@topping) %> |
+<%= link_to 'Back', toppings_path %>
