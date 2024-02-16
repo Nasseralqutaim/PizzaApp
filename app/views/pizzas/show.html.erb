@@ -1,0 +1,11 @@
+<%# Show a Single Pizza %>
+
+<h1><%= @pizza.name %></h1>
+
+<p>
+  <strong>Toppings:</strong>
+  <%= @pizza.toppings.map(&:name).join(", ") %>
+</p>
+
+<%= link_to 'Edit', edit_pizza_path(@pizza) %> |
+<%= link_to 'Back', pizzas_path %>
