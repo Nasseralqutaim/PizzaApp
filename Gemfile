@@ -15,7 +15,14 @@ gem 'turbo-rails'
 
 gem 'importmap-rails'
 
+group :development, :test do
+  gem 'rspec-rails', '~> 5.0'
+end
 
+group :test do
+  gem 'rails-controller-testing'
+  gem 'factory_bot_rails'
+end
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 # gem "jbuilder"
