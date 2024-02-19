@@ -1,9 +1,22 @@
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Example:
-#
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
+# Clear existing data to prevent duplication errors
+PizzaTopping.delete_all
+Topping.delete_all
+Pizza.delete_all
+
+# Creating Toppings
+cheese = Topping.create(name: 'Cheese')
+pepperoni = Topping.create(name: 'Pepperoni')
+mushrooms = Topping.create(name: 'Mushrooms')
+olives = Topping.create(name: 'Olives')
+
+# Creating Pizzas
+margherita = Pizza.create(name: 'Margherita')
+pepperoni_pizza = Pizza.create(name: 'Pepperoni Pizza')
+veggie = Pizza.create(name: 'Veggie')
+
+# Associating Pizzas and Toppings
+margherita.toppings << cheese
+pepperoni_pizza.toppings << [cheese, pepperoni]
+veggie.toppings << [cheese, mushrooms, olives]
+
+puts 'Seed data loaded successfully!'
