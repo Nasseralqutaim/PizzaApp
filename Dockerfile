@@ -11,15 +11,14 @@ WORKDIR /rails
 ENV RAILS_ENV="production" \
     BUNDLE_DEPLOYMENT="1" \
     BUNDLE_PATH="/usr/local/bundle" \
-    BUNDLE_WITHOUT="development"
-
+    BUNDLE_WITHOUT="development:test"
 
 # Throw-away build stage to reduce size of final image
 FROM base as build
 
-# Install packages needed to build gems
+# Install packages needed to build gems, including libpq-dev for the pg gem
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential git libvips pkg-config
+    apt-get install --no-install-recommends -y build-essential git libpq-dev libvips pkg-config
 
 # Install application gems
 COPY Gemfile Gemfile.lock ./
@@ -33,13 +32,12 @@ COPY . .
 # Precompile bootsnap code for faster boot times
 RUN bundle exec bootsnap precompile app/ lib/
 
-
 # Final stage for app image
 FROM base
 
-# Install packages needed for deployment
+# Install packages needed for deployment, excluding libsqlite3-0 if not used
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y curl libsqlite3-0 libvips && \
+    apt-get install --no-install-recommends -y curl libpq5 libvips && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # Copy built artifacts: gems, application

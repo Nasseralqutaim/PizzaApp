@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   #routes for pizzas:
+  root 'welcome#index'
   get '/pizzas', to: 'pizzas#index', as: 'pizzas'
   get '/pizzas/new', to: 'pizzas#new', as: 'new_pizza'
   post '/pizzas', to: 'pizzas#create'
